@@ -90,6 +90,7 @@
 
           @include("modals.updatespecification")
           @include("modals.newspecification")
+          @include("modals.deleteconfirm")
 
         </div>
       </div>
@@ -223,6 +224,15 @@
 
     })
 
+    //Delete Item on modal
+
+    // $('.deletebtn').on('click' , function () {
+    //   $('#deleteId').val($(this).data('id'));
+    //   $('#eqId').html('ID: '+ $(this).attr('data-equipmentid'));
+    //   $('#brand').html('Brand: '+ $(this).attr('data-brand'));
+    //   $('#model').html('Model: '+ $(this).attr('data-model'));
+     
+    // })
 
     $('#newEntry').click(function(){
       $('#createFormContainer').empty()
@@ -297,7 +307,13 @@
         // slideToggle("fast");
       });
     });
-
   });
+
+  function deleteItem(bisanunsa) {
+    $('#deleteId').val($(bisanunsa).data('id'));
+    $('#eqId').html('ID: '+ $(bisanunsa).attr('data-equipmentid'));
+    $('#brand').html('Brand: '+ $(bisanunsa).attr('data-brand'));
+    $('#model').html('Model: '+ $(bisanunsa).attr('data-model'));
+  }
 </script>
 @endsection

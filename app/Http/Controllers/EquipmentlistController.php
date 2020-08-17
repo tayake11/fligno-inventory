@@ -9,9 +9,10 @@ use App\SpecificationDetail;
 
 class EquipmentlistController extends Controller
 {
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        $equipmentlist = Equipmentlist::find($id);
+        // dd($request->deleteId);
+        $equipmentlist = Equipmentlist::findorfail($request['deleteId']);
         $equipmentlist->delete();
 
         $specificationDetail = SpecificationDetail::where('equipment_list_id', $id);

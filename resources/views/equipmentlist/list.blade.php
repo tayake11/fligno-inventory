@@ -33,10 +33,6 @@
             <!--   <a href="#" class="btn btn-sm btn-info">Show</a> -->
               
 
-             <form action="{{ route('equipmentlist.delete',['id'=>$item->id]) }}" method="post">
-                @csrf
-                @method('delete')
-
 
               <button data-toggle="modal" data-target="#updateItemModalCenter" type="button" class="btn btn-sm btn-warning viewItem" style="width: 75px; margin-bottom: 2px;"
                       data-id='{{$item->id}}'
@@ -48,10 +44,14 @@
                       data-specification-details="{{$item->sd}}"
                       >View</button>
 
-             
-              <button class="btn btn-sm btn-danger btnDelete" type="submit" style="width: 75px">Delete</button>
+              <button class="btn btn-sm btn-danger deletebtn" onclick="deleteItem(this)" style="width: 75px; margin-bottom: 2px;"
+                      data-toggle="modal" data-target="#deletemodal"
+                      data-brand='{{$item->brand}}'
+                      data-id='{{$item->id}}'
+                      data-equipmentid='{{$item->equipment_id}}'
+                      data-model='{{$item->model}}'
 
-            </form>
+                      >Delete</button>
 
           </tr>
         @endforeach
