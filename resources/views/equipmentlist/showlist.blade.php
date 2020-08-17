@@ -12,7 +12,7 @@
         <div class="card-body">
           <h5 class="card-title">Equipment Type</h5>
 
-          <form action="{{ url('/update/'.$equipmenttype->id) }}" method="post"> 
+          <form action="{{ url('/update/'.$equipmenttype->id) }}" method="post">
             @csrf
 
             <div class="form-group">
@@ -35,12 +35,12 @@
 
             </div>
 
-            
+
 
             <div id="show-hidden-menu">
               <h5 class="card-title">Specification</h5>
               <div class="form-group hidden-menu" style="display: none;">
-                
+
                 <table class="table">
 
                   <thead class="thead-light">
@@ -60,7 +60,7 @@
                       @csrf
                       @method('delete')
 
-                      <a class="btn btn-sm btn-warning editItemNameBtn" type="button" data-toggle="modal" data-target="#editItemNameModalCenter" 
+                      <a class="btn btn-sm btn-warning editItemNameBtn" type="button" data-toggle="modal" data-target="#editItemNameModalCenter"
                       data-name='{{ $item->name }}'
                       data-id='{{ $item->id }}'
                       >Edit</a>
@@ -75,13 +75,13 @@
                       </td>
                       </tr>
                     @endforeach
-                   
+
 
                   </tbody>
-                  
+
                 </table>
                  <button data-toggle="modal" data-target="#newSpecificationNameModalCenter" type="button" id="newSpecification" class="btn btn-success btn-sm" style="float: right; margin-left: 10px;">New</button>
-                    
+
 
               </div>
             </div>
@@ -124,7 +124,7 @@
         @else
           $('#exampleModalCenter').modal('show');
         @endif
-  
+
     @endif
 
     let eqtable = $('#equipment-table').DataTable({
@@ -137,8 +137,8 @@
         { responsivePriority: 2, targets: 4 }
       ],
 
-     
-  
+
+
     });
 
     $('#btnshow').click(function(){
@@ -161,18 +161,18 @@
     })
 
     function createRowTable(){
-     
+
       let parentDiv = $('#row'); // container name
       let count =  parentDiv.children().length - 1
-      let html = 
+      let html =
       `
       <div class="form-group my-2 d-flex justify-content-between">
       <input type="text" class='form-control' style='width: 70%;' name='specification[${(count ) + 1}]' placeholder='Specification Type'>
       <button type='button' class='btn btn-danger remove-specification ml-2' style='width:200px;'> Remove </button>
       </div>
       `
-      parentDiv.append(html); 
-      
+      parentDiv.append(html);
+
     }
 
     //fetch data from input to input
@@ -203,15 +203,20 @@
       $('#updateItemForm').attr('action','/equipmentupdate/'+ $(this).data('id'));
 
       let details = $(this).data('specification-details')
+      console.log(details);
 
-      //empty the table 
+      //empty the table
       $('#sd-body').empty()
       $.each(details,  function (index, value) {
+        console.log(value[0].specification);
         let html = `<tr>
         <td>${index}</td>
         <td>:</td>
         <td class="itemNameData">
-        <input type="text" name="specification[${value.specification}]" value="${value.detail}" class="form-control" style="border: none; width: 100%;">
+        <input type="text" name="specification[${value[0].specification != null
+          ? value[0].specification
+          : index
+        }]" value="${value[0].detail}" class="form-control" style="border: none; width: 100%;">
         </td>
         </tr>`
         //add the html element
@@ -246,7 +251,7 @@
 
       @endforeach
 
-      ` 
+      `
       )
     })
 

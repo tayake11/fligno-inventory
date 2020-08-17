@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Specification;
 use Illuminate\Http\Request;
 use App\Equipmentlist;
 use App\EquipmentType;
@@ -31,7 +32,7 @@ class EquipmentlistController extends Controller
 
     public function store(Request $request, $id)
     {
-        
+
         $request->validate([
         'equipmentId' => ['required', 'unique:equipmentlists,equipment_id'],
         'serial' => ['required', 'unique:equipmentlists']
@@ -42,7 +43,7 @@ class EquipmentlistController extends Controller
             'equipmentId.required' => 'ID is empty!',
             'serial.required' => 'Serial is empty!',
 
-        ] 
+        ]
         );
 
         $item = new Equipmentlist();
@@ -76,8 +77,6 @@ class EquipmentlistController extends Controller
 
     public function update(Request $request, $id)
     {
-        
-
         $item = Equipmentlist::find($id);
         $item->equipment_id = $request->input('equipmentId');
         $item->brand = $request->input('brand');
@@ -85,12 +84,21 @@ class EquipmentlistController extends Controller
         $item->serial = $request->input('serial');
         $item->save();
 
-        foreach($request->specification as $key=>$detail){
-            $detailcontainer =  SpecificationDetail::find($key);
-            $detailcontainer->detail = $detail;
-            $detailcontainer->save();
+        foreach($request->specification as $key => $detail){
+        $target = SpecificationDetail::find($key);
+          if($target != null){
+              $target->detail = $detail;
+              $target->save();
+          } else {
+              $specificationId = Specification::where('name',$key)->first()->id;
+              $newItem = new SpecificationDetail;
+              $newItem->detail = $detail;
+              $newItem->equipment_list_id = $item->id;
+              $newItem->specification_id = $specificationId;
+              $newItem->save();
+          }
         }
-        
+
         return redirect('/show/'.$item->type->id)->with('pagereturn',$request->pageid);
     }
 }
