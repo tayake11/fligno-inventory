@@ -9,7 +9,7 @@ use App\Specification;
 
 class EquipmentTypeController extends Controller
 {
-    
+
     public function index()
     {
         $equipmenttype = EquipmentType::all();
@@ -30,14 +30,14 @@ class EquipmentTypeController extends Controller
 
         $request->validate([
         'equipmentTypeName' => ['required', 'unique:equipment_types,equipment_name'],
-        
+
         ],
         [
             'equipmentTypeName.unique' => 'Equipment Category already Exist!',
-           
+
             'equipmentTypeName.required' => 'Equipment Category name is empty!',
 
-        ] 
+        ]
         );
 
 
@@ -69,8 +69,9 @@ class EquipmentTypeController extends Controller
     }
 
     public function show($id)
-    {	
-    	$equipmenttype = EquipmentType::find($id);
+    {
+
+    	$equipmenttype = EquipmentType::findOrFail($id);
         $equipmenttypes = EquipmentType::all();
         // dd($equipmenttype->equipment->first()->specificationDetails);
         return view('equipmentlist.showlist',[
@@ -91,11 +92,11 @@ class EquipmentTypeController extends Controller
 
     public function update(Request $request, $id)
     {
-        
+
         $equipmenttype = EquipmentType::find($id);
         $equipmenttype->equipment_name = $request->input('equipmentTypeName');
         $equipmenttype->save();
-      
+
         return redirect('/show/'.$equipmenttype->id);
     }
 }
